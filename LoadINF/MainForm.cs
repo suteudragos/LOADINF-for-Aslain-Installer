@@ -25,7 +25,7 @@ namespace Loadinf {
 
         public void InitializeApplication() {
             WorkingDir = Application.StartupPath;
-           // Text = $"LOADINF for Aslain's Installer v{version}";
+            Text = $"LOADINF for Aslain's Installer v{version}";
             Logger.Text = $"LOADINF for Aslain's Installer v{version} \n";
             Logger.Text = Logger.Text + $"Author: {author} \n\n";
             Logger.Text = Logger.Text + $"Working Directory: \n{WorkingDir}\n\n";
