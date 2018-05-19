@@ -34,7 +34,7 @@ namespace LoadINF {
             WorkingDir = Application.StartupPath;
             Text = $"LOADINF for Aslain's Installer v{version}";
             Logger.AppendText($"LOADINF for Aslain's Installer v{version} \n");
-            Logger.AppendText($"Author: { author} \n\n", Color.Red);
+            Logger.AppendText($"Author: { author} \n\n");
             Logger.AppendText($"Working Directory: \n{WorkingDir}\n\n");
         }
 
@@ -61,8 +61,9 @@ namespace LoadINF {
         /// </summary>
         /// <param name="Files">Array of string that contains the installers file names if there are any.</param>
         /// <param name="Image">Image from Properties.</param>
-        void InitializeForGame(string[] Files, Image Image) {
+        void InitializeForGame(string[] Files, Image Image, Color color) {
             pictureBox1.BackgroundImage = Image;
+            Logger.ForeColor = color;
             installer_label.ForeColor = Color.Green;
             installer_label.Text = "AUTO-LOADED";
             InstallerFileName = Files[Files.Length - 1].Substring(Files[0].LastIndexOf('\\') + 1);
@@ -90,11 +91,11 @@ namespace LoadINF {
 
                 if (dialog == DialogResult.Yes) {
                     //User selected World of Tanks
-                    InitializeForGame(wotFiles, Properties.Resources.welcomePageWoT);
+                    InitializeForGame(wotFiles, Properties.Resources.dark_welcomePageWoT,Color.Orange);
 
                 } else if (dialog == DialogResult.No) {
                     //User selected World of Warships
-                    InitializeForGame(wowsFiles, Properties.Resources.welcomePageWoWs);
+                    InitializeForGame(wowsFiles, Properties.Resources.dark_welcomePageWoWs, Color.DarkTurquoise);
 
                 } else if (dialog == DialogResult.Cancel) {
                     //User selected Cancel
@@ -102,14 +103,13 @@ namespace LoadINF {
                 }
             }
 
-
             if (wotFiles.Length > 0 && wowsFiles.Length == 0) {
                 //If only WoT installers found
-                InitializeForGame(wotFiles, Properties.Resources.welcomePageWoT);
+                InitializeForGame(wotFiles, Properties.Resources.dark_welcomePageWoT, Color.Orange);
 
             } else if (wotFiles.Length == 0 && wowsFiles.Length > 0) {
                 //If only WoWs installers found
-                InitializeForGame(wowsFiles, Properties.Resources.welcomePageWoWs);
+                InitializeForGame(wowsFiles, Properties.Resources.dark_welcomePageWoWs, Color.DarkTurquoise);
             }
 
             if ((wotFiles.Length > 0 || wowsFiles.Length > 0) && dialog != DialogResult.Cancel) {
@@ -158,9 +158,11 @@ namespace LoadINF {
                 Logger.AppendText($"{InstallerFileName}\nSuccessfully loaded!\n\n");
                 loadInfBtn.Enabled = true;
                 if (InstallerFileName.Contains("WoT")) {
-                    pictureBox1.BackgroundImage = Properties.Resources.welcomePageWoT;
+                    pictureBox1.BackgroundImage = Properties.Resources.dark_welcomePageWoT;
+                    Logger.ForeColor = Color.Orange;
                 } else if (InstallerFileName.Contains("WoWs")) {
-                    pictureBox1.BackgroundImage = Properties.Resources.welcomePageWoWs;
+                    pictureBox1.BackgroundImage = Properties.Resources.dark_welcomePageWoWs;
+                    Logger.ForeColor = Color.DarkTurquoise;
                 }
                 File.Copy(InstallerDialog.FileName, WorkingDir + "\\LOADINF_temp\\aslains_installer.exe", true);
             } else {
@@ -252,6 +254,11 @@ namespace LoadINF {
             }
         }
 
+        /// <summary>
+        /// This is getting called when closing the application.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
             InitializeCleanUp();
             timer1.Stop();
@@ -285,16 +292,7 @@ namespace LoadINF {
         private void Logger_TextChanged(object sender, EventArgs e) {
             Logger.SelectionStart = Logger.Text.Length;
             Logger.ScrollToCaret();
-        }
-    }
-
-    public static class RichTextBoxExtensions {
-        public static void AppendText(this RichTextBox box, string text, Color color) {
-            box.SelectionStart = box.TextLength;
-            box.SelectionLength = 0;
-            box.SelectionColor = color;
-            box.AppendText(text);
-            box.SelectionColor = box.ForeColor;
+            Logger.Update();
         }
     }
 }

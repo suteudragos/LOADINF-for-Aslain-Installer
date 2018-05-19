@@ -61,42 +61,42 @@ namespace LoadINF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap dark_welcomePageWoT {
+            get {
+                object obj = ResourceManager.GetObject("dark_welcomePageWoT", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap dark_welcomePageWoTWoWs {
+            get {
+                object obj = ResourceManager.GetObject("dark_welcomePageWoTWoWs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap dark_welcomePageWoWs {
+            get {
+                object obj = ResourceManager.GetObject("dark_welcomePageWoWs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon loadinf_aslains_installer_Icon {
             get {
                 object obj = ResourceManager.GetObject("loadinf_aslains_installer_Icon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap welcomePageWoT {
-            get {
-                object obj = ResourceManager.GetObject("welcomePageWoT", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap welcomePageWoTWoWs {
-            get {
-                object obj = ResourceManager.GetObject("welcomePageWoTWoWs", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap welcomePageWoWs {
-            get {
-                object obj = ResourceManager.GetObject("welcomePageWoWs", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }
