@@ -103,11 +103,11 @@ namespace LoadINF {
             }
 
 
-            if (wotFiles.Length > 0 && wowsFiles.Length == 0) { 
+            if (wotFiles.Length > 0 && wowsFiles.Length == 0) {
                 //If only WoT installers found
                 InitializeForGame(wotFiles, Properties.Resources.welcomePageWoT);
 
-            } else if (wotFiles.Length == 0 && wowsFiles.Length > 0) { 
+            } else if (wotFiles.Length == 0 && wowsFiles.Length > 0) {
                 //If only WoWs installers found
                 InitializeForGame(wowsFiles, Properties.Resources.welcomePageWoWs);
             }
@@ -250,7 +250,6 @@ namespace LoadINF {
                 } catch { }
             }
         }
-
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
             InitializeCleanUp();

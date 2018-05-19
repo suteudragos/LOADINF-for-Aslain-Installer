@@ -45,6 +45,7 @@
             // 
             // Logger
             // 
+            this.Logger.BackColor = System.Drawing.Color.White;
             this.Logger.Dock = System.Windows.Forms.DockStyle.Left;
             this.Logger.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Logger.Location = new System.Drawing.Point(0, 0);
@@ -179,6 +180,7 @@
             this.ClientSize = new System.Drawing.Size(921, 377);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
