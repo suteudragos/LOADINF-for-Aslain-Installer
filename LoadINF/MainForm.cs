@@ -17,6 +17,8 @@ namespace LoadINF {
         string InstallerFileName;
         string InfFileName;
 
+        String GameName = "";
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -61,7 +63,8 @@ namespace LoadINF {
         /// </summary>
         /// <param name="Files">Array of string that contains the installers file names if there are any.</param>
         /// <param name="Image">Image from Properties.</param>
-        void InitializeForGame(string[] Files, Image Image, Color color) {
+        void InitializeForGame(String GameName, string[] Files, Image Image, Color color) {
+            this.GameName = GameName;
             pictureBox1.BackgroundImage = Image;
             Logger.ForeColor = color;
             installer_label.ForeColor = Color.Green;
@@ -91,11 +94,11 @@ namespace LoadINF {
 
                 if (dialog == DialogResult.Yes) {
                     //User selected World of Tanks
-                    InitializeForGame(wotFiles, Properties.Resources.dark_welcomePageWoT,Color.Orange);
+                    InitializeForGame("WoT", wotFiles, Properties.Resources.dark_welcomePageWoT, Color.Orange);
 
                 } else if (dialog == DialogResult.No) {
                     //User selected World of Warships
-                    InitializeForGame(wowsFiles, Properties.Resources.dark_welcomePageWoWs, Color.DarkTurquoise);
+                    InitializeForGame("WoWs", wowsFiles, Properties.Resources.dark_welcomePageWoWs, Color.DarkTurquoise);
 
                 } else if (dialog == DialogResult.Cancel) {
                     //User selected Cancel
@@ -105,11 +108,11 @@ namespace LoadINF {
 
             if (wotFiles.Length > 0 && wowsFiles.Length == 0) {
                 //If only WoT installers found
-                InitializeForGame(wotFiles, Properties.Resources.dark_welcomePageWoT, Color.Orange);
+                InitializeForGame("WoT", wotFiles, Properties.Resources.dark_welcomePageWoT, Color.Orange);
 
             } else if (wotFiles.Length == 0 && wowsFiles.Length > 0) {
                 //If only WoWs installers found
-                InitializeForGame(wowsFiles, Properties.Resources.dark_welcomePageWoWs, Color.DarkTurquoise);
+                InitializeForGame("WoWs", wowsFiles, Properties.Resources.dark_welcomePageWoWs, Color.DarkTurquoise);
             }
 
             if ((wotFiles.Length > 0 || wowsFiles.Length > 0) && dialog != DialogResult.Cancel) {
@@ -126,7 +129,7 @@ namespace LoadINF {
         }
 
         /// <summary>
-        /// Cleaning the .INF File & Reinitializing the buttons & labels
+        /// Cleaning the .INF file & reinitializing the buttons & labels
         /// </summary>
         public void CleanINFFile() {
             if (File.Exists(WorkingDir + "\\LOADINF_temp\\_Aslains_Installer_Options.inf")) {
@@ -140,12 +143,27 @@ namespace LoadINF {
         }
 
         /// <summary>
+        /// Cleaning the setup file & reinitializing the buttons & labels
+        /// </summary>
+        public void CleanSetupFile() {
+            if (File.Exists(WorkingDir + "\\LOADINF_temp\\aslains_installer.exe")) {
+                try {
+                    File.Delete(WorkingDir + "\\LOADINF_temp\\aslains_installer.exe");
+                } catch { }
+            }
+            loadInfBtn.Enabled = runInstallerBtn.Enabled = false;
+            installer_label.Text = "NOT LOADED";
+            installer_label.ForeColor = Color.Red;
+        }
+
+        /// <summary>
         /// Function bound to LoadInstallerBtn
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void LoadInstallerBtn_Click(object sender, EventArgs e) {
             CleanINFFile();
+            CleanSetupFile();
             InstallerDialog.InitialDirectory = WorkingDir;
             InstallerDialog.Filter = "Aslain's Modpack Installer |*.exe";
             InstallerDialog.DefaultExt = ".exe";
@@ -158,15 +176,12 @@ namespace LoadINF {
                 Logger.AppendText($"{InstallerFileName}\nSuccessfully loaded!\n\n");
                 loadInfBtn.Enabled = true;
                 if (InstallerFileName.Contains("WoT")) {
-                    pictureBox1.BackgroundImage = Properties.Resources.dark_welcomePageWoT;
-                    Logger.ForeColor = Color.Orange;
+                    GameName = "WoT";
                 } else if (InstallerFileName.Contains("WoWs")) {
-                    pictureBox1.BackgroundImage = Properties.Resources.dark_welcomePageWoWs;
-                    Logger.ForeColor = Color.DarkTurquoise;
+                    GameName = "WoWs";
                 }
+                RepaintLogger();
                 File.Copy(InstallerDialog.FileName, WorkingDir + "\\LOADINF_temp\\aslains_installer.exe", true);
-            } else {
-                loadInfBtn.Enabled = false;
             }
         }
 
@@ -182,15 +197,32 @@ namespace LoadINF {
             InfDialog.FileName = "";
             DialogResult result = InfDialog.ShowDialog();
             if (result == DialogResult.OK) {
+                InfFileName = InfDialog.FileName.Substring(InfDialog.FileName.LastIndexOf('\\') + 1);
+                String InfFileText = File.ReadAllText(InfDialog.FileName);
+                if (GameName != null && GameName.CompareTo("WoT") == 0 && InfFileText.Contains("Warships")) {
+                    if (MessageBox.Show("As game you have selected World of Tanks, but you're trying to load a World of Warships config! Are you sure you want to proceed?", "Queston", MessageBoxButtons.OKCancel) == DialogResult.OK) {
+                        File.Copy(InfDialog.FileName, WorkingDir + "\\LOADINF_temp\\_Aslains_Installer_Options.inf", true);
+                    } else {
+                        return;
+                    }
+                } else if (GameName != null && GameName.CompareTo("WoWs") == 0 && InfFileText.Contains("Tanks")) {
+                    if (MessageBox.Show("As game you have selected World of Warships, but you're trying to load a World of Tanks config! Are you sure you want to proceed?", "Queston", MessageBoxButtons.OKCancel) == DialogResult.OK) {
+                        File.Copy(InfDialog.FileName, WorkingDir + "\\LOADINF_temp\\_Aslains_Installer_Options.inf", true);
+                    } else {
+                        return;
+                    }
+                } else {
+                    File.Copy(InfDialog.FileName, WorkingDir + "\\LOADINF_temp\\_Aslains_Installer_Options.inf", true);
+                }
                 INF_label.ForeColor = Color.Green;
                 INF_label.Text = "LOADED";
-                InfFileName = InfDialog.FileName.Substring(InfDialog.FileName.LastIndexOf('\\') + 1);
+                RepaintLogger();
                 Logger.AppendText($"{InfFileName}\nSuccessfully loaded!\n\n");
                 runInstallerBtn.Enabled = true;
-                File.Copy(InfDialog.FileName, WorkingDir + "\\LOADINF_temp\\_Aslains_Installer_Options.inf", true);
             } else {
                 runInstallerBtn.Enabled = false;
             }
+
         }
 
         /// <summary>
@@ -209,7 +241,7 @@ namespace LoadINF {
                     p.StartInfo.Arguments = "aslains_installer.exe";
                     p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                     p.Start();
-                    timer1.Start();
+                    RepaintLogger();
                     Logger.AppendText($"Executing:\n{InstallerFileName} /LOADINF={InfFileName}\n\n");
 
                 }
@@ -292,7 +324,18 @@ namespace LoadINF {
         private void Logger_TextChanged(object sender, EventArgs e) {
             Logger.SelectionStart = Logger.Text.Length;
             Logger.ScrollToCaret();
-            Logger.Update();
+        }
+
+
+        private void RepaintLogger() {
+            if (GameName.CompareTo("WoT") == 0) {
+                pictureBox1.BackgroundImage = Properties.Resources.dark_welcomePageWoT;
+                Logger.ForeColor = Color.Orange;
+            } else if (GameName.CompareTo("WoWs") == 0) {
+                pictureBox1.BackgroundImage = Properties.Resources.dark_welcomePageWoWs;
+                Logger.ForeColor = Color.DarkTurquoise;
+            }
+            Logger.Refresh();
         }
     }
 }
