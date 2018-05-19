@@ -57,11 +57,11 @@ namespace LoadINF {
         }
 
         /// <summary>
-        /// Not used yet.
+        /// Initializes the form for the specific game.
         /// </summary>
-        /// <param name="Files"></param>
-        /// <param name="Image"></param>
-        void SetupForGame(string[] Files, Image Image) {
+        /// <param name="Files">Array of string that contains the installers file names if there are any.</param>
+        /// <param name="Image">Image from Properties.</param>
+        void InitializeForGame(string[] Files, Image Image) {
             pictureBox1.BackgroundImage = Image;
             installer_label.ForeColor = Color.Green;
             installer_label.Text = "AUTO-LOADED";
@@ -86,54 +86,30 @@ namespace LoadINF {
             DialogResult dialog = DialogResult.None;
             //If both , WoT & WoWs Installers found
             if (wotFiles.Length > 0 && wowsFiles.Length > 0) {
-                dialog = LoadINF.BetterBox.Show("Question", "Both installers are located in the same folder.\nWhich do you want to run?");
+                dialog = BetterBox.Show("Question", "Both installers are located in the same folder.\nWhich do you want to run?");
 
-                //User selected World of Tanks
                 if (dialog == DialogResult.Yes) {
-                    pictureBox1.BackgroundImage = Properties.Resources.welcomePageWoT;
-                    installer_label.ForeColor = Color.Green;
-                    installer_label.Text = "AUTO-LOADED";
-                    InstallerFileName = wotFiles[wotFiles.Length - 1].Substring(wotFiles[0].LastIndexOf('\\') + 1);
-                    Logger.Text = Logger.Text + $"{InstallerFileName} - Successfully auto-loaded!\n";
-                    loadInfBtn.Enabled = true;
-                    File.Copy(wotFiles[wotFiles.Length - 1], WorkingDir + "\\LOADINF_temp\\aslains_installer.exe", true);
+                    //User selected World of Tanks
+                    InitializeForGame(wotFiles, Properties.Resources.welcomePageWoT);
 
-                    //User selected World of Warships
                 } else if (dialog == DialogResult.No) {
-                    pictureBox1.BackgroundImage = Properties.Resources.welcomePageWoWs;
-                    installer_label.ForeColor = Color.Green;
-                    installer_label.Text = "AUTO-LOADED";
-                    InstallerFileName = wowsFiles[wowsFiles.Length - 1].Substring(wowsFiles[0].LastIndexOf('\\') + 1);
-                    Logger.Text = Logger.Text + $"{InstallerFileName} - Successfully auto-loaded!\n";
-                    loadInfBtn.Enabled = true;
-                    File.Copy(wowsFiles[wowsFiles.Length - 1], WorkingDir + "\\LOADINF_temp\\aslains_installer.exe", true);
+                    //User selected World of Warships
+                    InitializeForGame(wowsFiles, Properties.Resources.welcomePageWoWs);
 
-                    //User selected Cancel
                 } else if (dialog == DialogResult.Cancel) {
+                    //User selected Cancel
                     //Environment.Exit(1);
                 }
-
             }
 
-            //If only WoT installers found
-            if (wotFiles.Length > 0 && wowsFiles.Length == 0) {
-                pictureBox1.BackgroundImage = Properties.Resources.welcomePageWoT;
-                installer_label.ForeColor = Color.Green;
-                installer_label.Text = "AUTO-LOADED";
-                InstallerFileName = wotFiles[wotFiles.Length - 1].Substring(wotFiles[0].LastIndexOf('\\') + 1);
-                Logger.Text = Logger.Text + $"{InstallerFileName} - Successfully auto-loaded!\n";
-                loadInfBtn.Enabled = true;
-                File.Copy(wotFiles[wotFiles.Length - 1], WorkingDir + "\\LOADINF_temp\\aslains_installer.exe", true);
 
+            if (wotFiles.Length > 0 && wowsFiles.Length == 0) { 
+                //If only WoT installers found
+                InitializeForGame(wotFiles, Properties.Resources.welcomePageWoT);
+
+            } else if (wotFiles.Length == 0 && wowsFiles.Length > 0) { 
                 //If only WoWs installers found
-            } else if (wotFiles.Length == 0 && wowsFiles.Length > 0) {
-                pictureBox1.BackgroundImage = Properties.Resources.welcomePageWoWs;
-                installer_label.ForeColor = Color.Green;
-                installer_label.Text = "AUTO-LOADED";
-                InstallerFileName = wowsFiles[wowsFiles.Length - 1].Substring(wowsFiles[0].LastIndexOf('\\') + 1);
-                Logger.Text = Logger.Text + $"{InstallerFileName} - Successfully auto-loaded!\n";
-                loadInfBtn.Enabled = true;
-                File.Copy(wowsFiles[wowsFiles.Length - 1], WorkingDir + "\\LOADINF_temp\\aslains_installer.exe", true);
+                InitializeForGame(wowsFiles, Properties.Resources.welcomePageWoWs);
             }
 
             if ((wotFiles.Length > 0 || wowsFiles.Length > 0) && dialog != DialogResult.Cancel) {
@@ -158,7 +134,6 @@ namespace LoadINF {
                     File.Delete(WorkingDir + "\\LOADINF_temp\\_Aslains_Installer_Options.inf");
                 } catch { }
             }
-
             loadInfBtn.Enabled = runInstallerBtn.Enabled = false;
             INF_label.Text = "NOT LOADED";
             INF_label.ForeColor = Color.Red;
