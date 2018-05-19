@@ -119,11 +119,28 @@ namespace LoadINF {
                 //Check for _Aslains_Installer_Options.inf in root
                 InfFileName = "Aslains_Installer_Options.inf";
                 if (File.Exists(WorkingDir + "\\_Aslains_Installer_Options.inf")) {
+                    String InfFileText = File.ReadAllText(WorkingDir + "\\_Aslains_Installer_Options.inf");
+                    if (GameName != null && GameName.CompareTo("WoT") == 0 && InfFileText.Contains("Warships")) {
+                        if (MessageBox.Show("As game you have selected World of Tanks, but you're trying to load a World of Warships config! Are you sure you want to proceed?", "Queston", MessageBoxButtons.OKCancel) == DialogResult.OK) {
+                            File.Copy(WorkingDir + "\\_Aslains_Installer_Options.inf", WorkingDir + "\\LOADINF_temp\\_Aslains_Installer_Options.inf", true);
+                        } else {
+                            return;
+                        }
+                    } else if (GameName != null && GameName.CompareTo("WoWs") == 0 && InfFileText.Contains("Tanks")) {
+                        if (MessageBox.Show("As game you have selected World of Warships, but you're trying to load a World of Tanks config! Are you sure you want to proceed?", "Queston", MessageBoxButtons.OKCancel) == DialogResult.OK) {
+                            File.Copy(WorkingDir + "\\_Aslains_Installer_Options.inf", WorkingDir + "\\LOADINF_temp\\_Aslains_Installer_Options.inf", true);
+                        } else {
+                            return;
+                        }
+                    } else {
+                        File.Copy(WorkingDir + "\\_Aslains_Installer_Options.inf", WorkingDir + "\\LOADINF_temp\\_Aslains_Installer_Options.inf", true);
+                    }
+
                     INF_label.ForeColor = Color.Green;
                     INF_label.Text = "AUTO-LOADED";
                     Logger.AppendText($"{InfFileName}\nSuccessfully auto-loaded!\n\n");
                     runInstallerBtn.Enabled = true;
-                    File.Copy(WorkingDir + "\\_Aslains_Installer_Options.inf", WorkingDir + "\\LOADINF_temp\\_Aslains_Installer_Options.inf", true);
+
                 } else Logger.Text = Logger.Text + $"{InfFileName}\nNot found!\n\n";
             }
         }
@@ -241,6 +258,7 @@ namespace LoadINF {
                     p.StartInfo.Arguments = "aslains_installer.exe";
                     p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                     p.Start();
+                    timer1.Start();
                     RepaintLogger();
                     Logger.AppendText($"Executing:\n{InstallerFileName} /LOADINF={InfFileName}\n\n");
 
