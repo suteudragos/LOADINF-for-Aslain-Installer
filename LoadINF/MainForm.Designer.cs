@@ -47,11 +47,12 @@
             // 
             this.Logger.BackColor = System.Drawing.Color.White;
             this.Logger.Dock = System.Windows.Forms.DockStyle.Left;
-            this.Logger.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Logger.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Logger.ForeColor = System.Drawing.SystemColors.WindowText;
             this.Logger.Location = new System.Drawing.Point(0, 0);
             this.Logger.Name = "Logger";
             this.Logger.ReadOnly = true;
-            this.Logger.Size = new System.Drawing.Size(534, 247);
+            this.Logger.Size = new System.Drawing.Size(330, 247);
             this.Logger.TabIndex = 0;
             this.Logger.Text = "";
             this.Logger.TextChanged += new System.EventHandler(this.Logger_TextChanged);
@@ -65,17 +66,17 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.MinimumSize = new System.Drawing.Size(261, 65);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(921, 247);
+            this.panel1.Size = new System.Drawing.Size(691, 247);
             this.panel1.TabIndex = 1;
             // 
             // pictureBox1
             // 
             this.pictureBox1.BackgroundImage = global::LoadINF.Properties.Resources.welcomePageWoTWoWs;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(534, 0);
+            this.pictureBox1.Location = new System.Drawing.Point(330, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(387, 247);
+            this.pictureBox1.Size = new System.Drawing.Size(361, 247);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
@@ -90,14 +91,14 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel2.Location = new System.Drawing.Point(0, 253);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(921, 124);
+            this.panel2.Size = new System.Drawing.Size(691, 124);
             this.panel2.TabIndex = 2;
             // 
             // runInstallerBtn
             // 
             this.runInstallerBtn.Enabled = false;
             this.runInstallerBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.runInstallerBtn.Location = new System.Drawing.Point(717, 42);
+            this.runInstallerBtn.Location = new System.Drawing.Point(480, 42);
             this.runInstallerBtn.Name = "runInstallerBtn";
             this.runInstallerBtn.Size = new System.Drawing.Size(175, 53);
             this.runInstallerBtn.TabIndex = 5;
@@ -109,7 +110,7 @@
             // 
             this.loadInfBtn.Enabled = false;
             this.loadInfBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.loadInfBtn.Location = new System.Drawing.Point(379, 42);
+            this.loadInfBtn.Location = new System.Drawing.Point(255, 42);
             this.loadInfBtn.Name = "loadInfBtn";
             this.loadInfBtn.Size = new System.Drawing.Size(175, 53);
             this.loadInfBtn.TabIndex = 4;
@@ -132,7 +133,7 @@
             // 
             this.Running_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Running_label.ForeColor = System.Drawing.Color.Red;
-            this.Running_label.Location = new System.Drawing.Point(751, 15);
+            this.Running_label.Location = new System.Drawing.Point(514, 15);
             this.Running_label.Name = "Running_label";
             this.Running_label.Size = new System.Drawing.Size(101, 13);
             this.Running_label.TabIndex = 2;
@@ -143,7 +144,7 @@
             // 
             this.INF_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.INF_label.ForeColor = System.Drawing.Color.Red;
-            this.INF_label.Location = new System.Drawing.Point(418, 15);
+            this.INF_label.Location = new System.Drawing.Point(294, 15);
             this.INF_label.Name = "INF_label";
             this.INF_label.Size = new System.Drawing.Size(101, 13);
             this.INF_label.TabIndex = 1;
@@ -177,7 +178,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(921, 377);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(691, 377);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

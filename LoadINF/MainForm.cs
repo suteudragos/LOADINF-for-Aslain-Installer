@@ -33,9 +33,9 @@ namespace LoadINF {
         public void InitializeApplication() {
             WorkingDir = Application.StartupPath;
             Text = $"LOADINF for Aslain's Installer v{version}";
-            Logger.Text = $"LOADINF for Aslain's Installer v{version} \n";
-            Logger.Text = Logger.Text + $"Author: {author} \n\n";
-            Logger.Text = Logger.Text + $"Working Directory: \n{WorkingDir}\n\n";
+            Logger.AppendText($"LOADINF for Aslain's Installer v{version} \n");
+            Logger.AppendText($"Author: { author} \n\n", Color.Red);
+            Logger.AppendText($"Working Directory: \n{WorkingDir}\n\n");
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace LoadINF {
             installer_label.ForeColor = Color.Green;
             installer_label.Text = "AUTO-LOADED";
             InstallerFileName = Files[Files.Length - 1].Substring(Files[0].LastIndexOf('\\') + 1);
-            Logger.Text = Logger.Text + $"{InstallerFileName} - Successfully auto-loaded!\n";
+            Logger.AppendText($"{InstallerFileName}\nSuccessfully auto-loaded!\n\n");
             loadInfBtn.Enabled = true;
             File.Copy(Files[Files.Length - 1], WorkingDir + "\\LOADINF_temp\\aslains_installer.exe", true);
         }
@@ -118,10 +118,10 @@ namespace LoadINF {
                 if (File.Exists(WorkingDir + "\\_Aslains_Installer_Options.inf")) {
                     INF_label.ForeColor = Color.Green;
                     INF_label.Text = "AUTO-LOADED";
-                    Logger.Text = Logger.Text + $"{InfFileName} - Successfully auto-loaded!\n";
+                    Logger.AppendText($"{InfFileName}\nSuccessfully auto-loaded!\n\n");
                     runInstallerBtn.Enabled = true;
                     File.Copy(WorkingDir + "\\_Aslains_Installer_Options.inf", WorkingDir + "\\LOADINF_temp\\_Aslains_Installer_Options.inf", true);
-                } else Logger.Text = Logger.Text + $"{InfFileName} - Not found!\n";
+                } else Logger.Text = Logger.Text + $"{InfFileName}\nNot found!\n\n";
             }
         }
 
@@ -155,7 +155,7 @@ namespace LoadINF {
                 installer_label.ForeColor = Color.Green;
                 installer_label.Text = "LOADED";
                 InstallerFileName = InstallerDialog.FileName.Substring(InstallerDialog.FileName.LastIndexOf('\\') + 1);
-                Logger.Text = Logger.Text + $"{InstallerFileName}  - Successfully loaded!\n";
+                Logger.AppendText($"{InstallerFileName}\nSuccessfully loaded!\n\n");
                 loadInfBtn.Enabled = true;
                 if (InstallerFileName.Contains("WoT")) {
                     pictureBox1.BackgroundImage = Properties.Resources.welcomePageWoT;
@@ -183,7 +183,7 @@ namespace LoadINF {
                 INF_label.ForeColor = Color.Green;
                 INF_label.Text = "LOADED";
                 InfFileName = InfDialog.FileName.Substring(InfDialog.FileName.LastIndexOf('\\') + 1);
-                Logger.Text = Logger.Text + $"{InfFileName} - Successfully loaded!\n";
+                Logger.AppendText($"{InfFileName}\nSuccessfully loaded!\n\n");
                 runInstallerBtn.Enabled = true;
                 File.Copy(InfDialog.FileName, WorkingDir + "\\LOADINF_temp\\_Aslains_Installer_Options.inf", true);
             } else {
@@ -208,7 +208,8 @@ namespace LoadINF {
                     p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                     p.Start();
                     timer1.Start();
-                    Logger.Text = Logger.Text + $"Executing:\n{InstallerFileName} /LOADINF={InfFileName}\n";
+                    Logger.AppendText($"Executing:\n{InstallerFileName} /LOADINF={InfFileName}\n\n");
+
                 }
             }
         }
@@ -276,7 +277,6 @@ namespace LoadINF {
             }
         }
 
-
         /// <summary>
         /// Logger scroll to bottom function.
         /// </summary>
@@ -285,6 +285,16 @@ namespace LoadINF {
         private void Logger_TextChanged(object sender, EventArgs e) {
             Logger.SelectionStart = Logger.Text.Length;
             Logger.ScrollToCaret();
+        }
+    }
+
+    public static class RichTextBoxExtensions {
+        public static void AppendText(this RichTextBox box, string text, Color color) {
+            box.SelectionStart = box.TextLength;
+            box.SelectionLength = 0;
+            box.SelectionColor = color;
+            box.AppendText(text);
+            box.SelectionColor = box.ForeColor;
         }
     }
 }
