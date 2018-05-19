@@ -1,6 +1,6 @@
 # LOADINF-for-Aslain-Installer
 ## What it looks like?
-[![LOADINF Presentation](https://i.imgur.com/C00bbKO.png)](https://i.imgur.com/C00bbKO.png)
+[![LOADINF Presentation](https://i.imgur.com/rhnYT3y.png)](https://i.imgur.com/rhnYT3y.png)
 
 ## What it does?
 - It loads the config file into Aslain's Installer
@@ -15,7 +15,7 @@
 ### Todos
 - Add WoWS support
 
-## About me
+## Contact
 * Name: Dragoș Șuteu
 * E-Mail: <rmxshoot@gmail.com>
 * Discord: BeginGT#8794
