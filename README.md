@@ -18,6 +18,7 @@
 ## About me
 * Name: Dragoș Șuteu
 * E-Mail: <rmxshoot@gmail.com>
+* Discord: BeginGT#8794
 
 License
 ----
