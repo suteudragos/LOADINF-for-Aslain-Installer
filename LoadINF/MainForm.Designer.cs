@@ -155,7 +155,7 @@
             this.Logger.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Logger.Enabled = false;
             this.Logger.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Logger.ForeColor = System.Drawing.Color.Gainsboro;
+            this.Logger.ForeColor = System.Drawing.Color.White;
             this.Logger.Location = new System.Drawing.Point(0, 0);
             this.Logger.Name = "Logger";
             this.Logger.ReadOnly = true;
@@ -167,7 +167,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BackgroundImage = global::LoadINF.Properties.Resources.dark_welcomePageWoTWoWs;
+            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);

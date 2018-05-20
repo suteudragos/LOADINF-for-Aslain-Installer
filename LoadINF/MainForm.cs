@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace LoadINF {
     public partial class Form1 : Form {
-        string version = Assembly.GetEntryAssembly().GetName().Version.ToString(2);
+        string version = Assembly.GetEntryAssembly().GetName().Version.ToString(3);
         string author = "BeGiN";
 
         String WorkingDir;
@@ -121,13 +121,13 @@ namespace LoadINF {
                 if (File.Exists(WorkingDir + "\\_Aslains_Installer_Options.inf")) {
                     String InfFileText = File.ReadAllText(WorkingDir + "\\_Aslains_Installer_Options.inf");
                     if (GameName != null && GameName.CompareTo("WoT") == 0 && InfFileText.Contains("Warships")) {
-                        if (MessageBox.Show("As game you have selected World of Tanks, but you're trying to load a World of Warships config! Are you sure you want to proceed?", "Queston", MessageBoxButtons.OKCancel) == DialogResult.OK) {
+                        if (MessageBox.Show("You have selected World of Tanks, but you're trying to load a World of Warships config! Are you sure you want to proceed?", "Queston", MessageBoxButtons.OKCancel) == DialogResult.OK) {
                             File.Copy(WorkingDir + "\\_Aslains_Installer_Options.inf", WorkingDir + "\\LOADINF_temp\\_Aslains_Installer_Options.inf", true);
                         } else {
                             return;
                         }
                     } else if (GameName != null && GameName.CompareTo("WoWs") == 0 && InfFileText.Contains("Tanks")) {
-                        if (MessageBox.Show("As game you have selected World of Warships, but you're trying to load a World of Tanks config! Are you sure you want to proceed?", "Queston", MessageBoxButtons.OKCancel) == DialogResult.OK) {
+                        if (MessageBox.Show("You have selected World of Warships, but you're trying to load a World of Tanks config! Are you sure you want to proceed?", "Queston", MessageBoxButtons.OKCancel) == DialogResult.OK) {
                             File.Copy(WorkingDir + "\\_Aslains_Installer_Options.inf", WorkingDir + "\\LOADINF_temp\\_Aslains_Installer_Options.inf", true);
                         } else {
                             return;
@@ -217,13 +217,13 @@ namespace LoadINF {
                 InfFileName = InfDialog.FileName.Substring(InfDialog.FileName.LastIndexOf('\\') + 1);
                 String InfFileText = File.ReadAllText(InfDialog.FileName);
                 if (GameName != null && GameName.CompareTo("WoT") == 0 && InfFileText.Contains("Warships")) {
-                    if (MessageBox.Show("As game you have selected World of Tanks, but you're trying to load a World of Warships config! Are you sure you want to proceed?", "Queston", MessageBoxButtons.OKCancel) == DialogResult.OK) {
+                    if (MessageBox.Show("You have selected World of Tanks, but you're trying to load a World of Warships config! Are you sure you want to proceed?", "Queston", MessageBoxButtons.OKCancel) == DialogResult.OK) {
                         File.Copy(InfDialog.FileName, WorkingDir + "\\LOADINF_temp\\_Aslains_Installer_Options.inf", true);
                     } else {
                         return;
                     }
                 } else if (GameName != null && GameName.CompareTo("WoWs") == 0 && InfFileText.Contains("Tanks")) {
-                    if (MessageBox.Show("As game you have selected World of Warships, but you're trying to load a World of Tanks config! Are you sure you want to proceed?", "Queston", MessageBoxButtons.OKCancel) == DialogResult.OK) {
+                    if (MessageBox.Show("You have selected World of Warships, but you're trying to load a World of Tanks config! Are you sure you want to proceed?", "Queston", MessageBoxButtons.OKCancel) == DialogResult.OK) {
                         File.Copy(InfDialog.FileName, WorkingDir + "\\LOADINF_temp\\_Aslains_Installer_Options.inf", true);
                     } else {
                         return;
@@ -269,13 +269,13 @@ namespace LoadINF {
         /// <summary>
         /// Initializes the cleanup procedure, removing directories, files, etc.
         /// </summary>
-        public void InitializeCleanUp() {
+        public void InitializeCleanUp(FormClosingEventArgs e) {
             if (File.Exists(WorkingDir + "\\LOADINF_temp\\aslains_installer.exe")) {
                 if (Running_label.Text == "NOT RUNNING") {
                     File.Delete(WorkingDir + "\\LOADINF_temp\\aslains_installer.exe");
                 } else {
-                    DialogResult m = MessageBox.Show("Do you want to turn the installer off so we can clean the temporary file?", "Question", MessageBoxButtons.YesNo);
-                    if (m == DialogResult.Yes) {
+                    DialogResult m = MessageBox.Show("The installer is already running, do you want to close it before we proceed?", "Question", MessageBoxButtons.OKCancel);
+                    if (m == DialogResult.OK) {
                         Process[] proc = Process.GetProcessesByName("aslains_installer.tmp");
                         for (int i = 0; i < proc.Length; i++) {
                             proc[i].Kill();
@@ -284,6 +284,9 @@ namespace LoadINF {
                         try {
                             File.Delete(WorkingDir + "\\LOADINF_temp\\aslains_installer.exe");
                         } catch { }
+                    }else if ( m == DialogResult.Cancel) {
+                        e.Cancel = true;
+                        return;
                     }
                 }
             }
@@ -310,7 +313,7 @@ namespace LoadINF {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
-            InitializeCleanUp();
+            InitializeCleanUp(e);
             timer1.Stop();
         }
 
